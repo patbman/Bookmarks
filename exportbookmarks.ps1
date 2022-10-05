@@ -4,20 +4,6 @@
 
 
 
-$HTML_File_Dir = "$($env:userprofile)\Desktop\$($env:COMPUTERNAME)_bookmarks"
-#Edge export
-$Edge_JSON_File_Path = "$($env:localappdata)\Microsoft\Edge\User Data\Default\Bookmarks"
-$Edge_File_Path = "$($HTML_File_Dir)\Edge-Bookmarks.html"
-
-
-bookmark_export $Edge_JSON_File_Path $Edge_File_Path $HTML_File_Dir
-
-
-#Chrome export
-$chrome_JSON_File_Path = "$($env:localappdata)\Google\Chrome\User Data\Default\Bookmarks"
-$Chrome_File_Path = "$($HTML_File_Dir)\Chrome-Bookmarks.html"
-
-bookmark_export $chrome_JSON_File_Path $Chrome_File_Path $HTML_File_Dir
 
 
 
@@ -111,3 +97,22 @@ ForEach ($entry in $sections) {
 '</DL>' | Out-File -FilePath $output_html -Append -Force -Encoding utf8
 
 }
+$HTML_File_Dir = "$($env:userprofile)\Desktop\$($env:COMPUTERNAME)_bookmarks"
+
+if (!(Test-Path $HTML_File_Dir -PathType Container)) {
+    New-Item -ItemType Directory -Force -Path $HTML_File_Dir
+}
+
+#Edge export
+$Edge_JSON_File_Path = "$($env:localappdata)\Microsoft\Edge\User Data\Default\Bookmarks"
+$Edge_File_Path = "$($HTML_File_Dir)\Edge-Bookmarks.html"
+
+
+bookmark_export $Edge_JSON_File_Path $Edge_File_Path $HTML_File_Dir
+
+
+#Chrome export
+$chrome_JSON_File_Path = "$($env:localappdata)\Google\Chrome\User Data\Default\Bookmarks"
+$Chrome_File_Path = "$($HTML_File_Dir)\Chrome-Bookmarks.html"
+
+bookmark_export $chrome_JSON_File_Path $Chrome_File_Path $HTML_File_Dir
