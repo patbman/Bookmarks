@@ -4,7 +4,7 @@
 
 
 
-$HTML_File_Dir = "$($env:userprofile)\Desktop"
+$HTML_File_Dir = "$($env:userprofile)\Desktop\$($env:COMPUTERNAME)_bookmarks"
 #Edge export
 $Edge_JSON_File_Path = "$($env:localappdata)\Microsoft\Edge\User Data\Default\Bookmarks"
 $Edge_File_Path = "$($HTML_File_Dir)\Edge-Bookmarks.html"
