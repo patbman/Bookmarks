@@ -1,6 +1,6 @@
 #export edge and chrome bookmarks to respective html files to be imported
 #modified version of gunnarhaslinger edge bookmark script 
-#bookmarks will export as HTML files to the users desktop
+#bookmarks will export as HTML files to a folder on the C drive labeled the computer name
 
 
 
