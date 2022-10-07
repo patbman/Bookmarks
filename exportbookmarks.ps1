@@ -5,11 +5,6 @@
 
 
 
-
-
-
-
-
 function bookmark_export{
     param($json_file, $output_html, $HTML_File_Dir)
 
@@ -28,9 +23,6 @@ if (!(Test-Path -Path $HTML_File_Dir -PathType Container)) {
 # ---- HTML Header ----
 $BookmarksHTML_Header = @'
 <!DOCTYPE NETSCAPE-Bookmark-file-1>
-<!-- This is an automatically generated file.
-     It will be read and overwritten.
-     DO NOT EDIT! -->
 <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">
 <TITLE>Bookmarks</TITLE>
 <H1>Bookmarks</H1>
@@ -97,22 +89,58 @@ ForEach ($entry in $sections) {
 '</DL>' | Out-File -FilePath $output_html -Append -Force -Encoding utf8
 
 }
-$HTML_File_Dir = "$($env:userprofile)\Desktop\$($env:COMPUTERNAME)_bookmarks"
+
+
+$HTML_File_Dir = "c:\$($env:COMPUTERNAME)_bookmarks"
 
 if (!(Test-Path $HTML_File_Dir -PathType Container)) {
     New-Item -ItemType Directory -Force -Path $HTML_File_Dir
 }
 
+
+foreach ($i in $((Get-ChildItem -Directory C:\Users).BaseName)){
+    
+    
+
+        if ((Test-Path "c:\users\$i\appdata\local\Microsoft\Edge\User Data\Default\Bookmarks")){
+            #Edge export
+            $Edge_JSON_File_Path = "c:\users\$i\appdata\local\Microsoft\Edge\User Data\Default\Bookmarks"
+            $Edge_File_Path = "$($HTML_File_Dir)\$i-Edge-Bookmarks.html"
+
+            bookmark_export $Edge_JSON_File_Path $Edge_File_Path $HTML_File_Dir
+        }
+        else{
+            continue
+        }
+            #Chrome export
+        if ((Test-Path "c:\users\$i\appdata\local\Microsoft\Edge\User Data\Default\Bookmarks")){
+            $chrome_JSON_File_Path = "c:\users\$i\appdata\local\Google\Chrome\User Data\Default\Bookmarks"
+            $Chrome_File_Path = "$($HTML_File_Dir)\$i-Chrome-Bookmarks.html"
+
+            bookmark_export $chrome_JSON_File_Path $Chrome_File_Path $HTML_File_Dir
+        }
+        else{
+            continue
+        }
+    
+
+
+}
+
+
+
+
+
 #Edge export
-$Edge_JSON_File_Path = "$($env:localappdata)\Microsoft\Edge\User Data\Default\Bookmarks"
-$Edge_File_Path = "$($HTML_File_Dir)\Edge-Bookmarks.html"
+#$Edge_JSON_File_Path = "$($env:localappdata)\Microsoft\Edge\User Data\Default\Bookmarks"
+#$Edge_File_Path = "$($HTML_File_Dir)\Edge-Bookmarks.html"
 
 
-bookmark_export $Edge_JSON_File_Path $Edge_File_Path $HTML_File_Dir
+#bookmark_export $Edge_JSON_File_Path $Edge_File_Path $HTML_File_Dir
 
 
 #Chrome export
-$chrome_JSON_File_Path = "$($env:localappdata)\Google\Chrome\User Data\Default\Bookmarks"
-$Chrome_File_Path = "$($HTML_File_Dir)\Chrome-Bookmarks.html"
+#$chrome_JSON_File_Path = "$($env:localappdata)\Google\Chrome\User Data\Default\Bookmarks"
+#$Chrome_File_Path = "$($HTML_File_Dir)\Chrome-Bookmarks.html"
 
-bookmark_export $chrome_JSON_File_Path $Chrome_File_Path $HTML_File_Dir
+#bookmark_export $chrome_JSON_File_Path $Chrome_File_Path $HTML_File_Dir
